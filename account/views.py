@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import generics
 from rest_framework.viewsets import GenericViewSet
 
-from account.serializers import RegisterSerializer, LoginSerializer, UserSerializer, UsersListSerializer
+from account.serializers import RegisterSerializer, LoginSerializer, UserSerializer, SearchSerializer
 from main.permissions import IsProfileOwner
 
 User = get_user_model()
@@ -59,9 +59,9 @@ class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, Generic
         return [permission() for permission in permission_classes]
 
 
-class UsersListViewSet(generics.ListAPIView):
+class SearchViewSet(generics.ListAPIView):
     queryset = User.objects.all()
-    serializer_class = UsersListSerializer
+    serializer_class = SearchSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
