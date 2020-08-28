@@ -7,7 +7,15 @@ schema_view = get_schema_view(
     openapi.Info(
         title='Twitter API Clone',
         default_version='v1',
-        description='Simple api for twitter',
+        description='В проекте реализовано:'
+                    'Crud'
+                    'регистрация'
+                    'комментарии'
+                    'работа с картинками'
+                    'пагинация'
+                    'permission'
+                    'поиск'
+                    'фильтрация',
         license=openapi.License(name='BSD License')
     ),
     public=True,
