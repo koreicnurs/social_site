@@ -5,9 +5,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='Clone_Instagram',
+        title='Twitter API Clone',
         default_version='v1',
-        description='Test disp',
+        description='Simple api for twitter',
         license=openapi.License(name='BSD License')
     ),
     public=True,
