@@ -77,7 +77,7 @@ class UserSerializer(serializers.ModelSerializer):
         return representation
 
 
-class UsersListSerializer(serializers.ModelSerializer):
+class SearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email',)

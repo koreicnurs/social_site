@@ -25,9 +25,8 @@ from main.views import PostViewSet, CommentViewSet
 from account.views import ProfileViewSet
 
 router = DefaultRouter()
-router.register('tweets', CommentViewSet)
 router.register('posts', PostViewSet)
-router.register('likes', PostViewSet)
+router.register('tweets', CommentViewSet)
 router.register('profile', ProfileViewSet)
 
 urlpatterns = [
