@@ -21,8 +21,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         return email
 
     def validate(self, validated_data):
-        password =  validated_data.get('password')
-        password_confirmation  = validated_data.get('password_confirmation')
+        password = validated_data.get('password')
+        password_confirmation = validated_data.get('password_confirmation')
         if password != password_confirmation:
             raise serializers.ValidationError('Passwords don\'t match')
         return validated_data
@@ -57,5 +57,29 @@ class LoginSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'image', 'id')
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.followers.all().count() > 0:
+            followings_object_list = instance.followers.filter(follower=instance)
+            followings_list = [follow.user.email for follow in followings_object_list]
+            representation['followings'] = followings_list
+        if instance.followings.all().count() > 0:
+            followers_object_list = instance.followings.filter(user=instance)
+            followers_list = [follow.follower.email for follow in followers_object_list]
+            representation['followers'] = followers_list
+        return representation
+
+
+class UsersListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email',)
 
 

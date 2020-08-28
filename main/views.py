@@ -1,6 +1,3 @@
-from django.db.models import Q
-from django.http import Http404
-
 from rest_framework import generics, status, viewsets, mixins, permissions
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
@@ -8,12 +5,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
 from account.models import User
 from .mixins import LikedMixin
-from .models import Post, Comment
+from .models import Post, Comment, Tag, Follow
 from .permissions import IsPostAuthor
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostSerializer, CommentSerializer, TagSerializer, FollowSerializer
 
 
 class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
@@ -77,3 +75,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         queryset = queryset.filter(author=request.user)
         serializer = PostSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class FollowerList(generics.ListCreateAPIView):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
