@@ -14,20 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from .yasg import urlpatterns as dic_url, schema_view
 from rest_framework.routers import DefaultRouter
 
 from main.views import PostViewSet, CommentViewSet
+from account.views import ProfileViewSet
 
 router = DefaultRouter()
-router.register('comments', CommentViewSet)
+router.register('tweets', CommentViewSet)
 router.register('posts', PostViewSet)
 router.register('likes', PostViewSet)
+router.register('profile', ProfileViewSet)
 
 urlpatterns = [
+    # path('jet/', include('jet.urls', 'jet')),
+    # url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     path('v1/', include(router.urls)),
     path('v1/account/', include('account.urls')),
+    path('v1/', include('main.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += dic_url
